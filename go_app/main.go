@@ -5,18 +5,33 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"os"
+)
+
+type(
+	Config struct{
+		Port string
+	}
 )
 
 func main() {
 	fmt.Println("go app is running")
-	startServer()
+	startServer(getConfigFromEnvVariables())
 }
 
-func startServer() {
+func startServer(config Config) {
+	fmt.Println("starting server with config: ", config)
+	port := ":" +config.Port
 	http.HandleFunc("/", sayhelloName)       // set router
-	err := http.ListenAndServe(":9090", nil) // set listen port
+	err := http.ListenAndServe(port, nil) // set listen port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
+	}
+}
+
+func getConfigFromEnvVariables() Config {
+	return Config{
+		Port: os.Getenv("PORT"),
 	}
 }
 
