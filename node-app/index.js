@@ -10,15 +10,23 @@ function main(){
 
 function startServer({config=getConfigFromEnvVariables(), cpus=os.cpus()}={}){
   console.log(`starting server with config: ${JSON.stringify(config)}`);
-  const {port} = config;
-  if (cluster.isMaster) {
-    cpus.forEach(()=>cluster.fork());
-  } else {
-    const server = http.createServer((request, response) => {
-      route(request, response);
-    });
-    server.listen(port);
+  const {port, useCluster} = config;
+  const shouldUseCluster = useCluster === 'true';
+  if(shouldUseCluster){
+    if (cluster.isMaster) {
+      cpus.forEach(()=>cluster.fork());
+    } else {
+      createServerAndListen({port});
+    }
+  }else{
+    createServerAndListen({port});
   }
+}
+function createServerAndListen({port}){
+  const server = http.createServer((request, response) => {
+    route(request, response);
+  });
+  server.listen(port);
 }
 
 function route(request, response){
@@ -47,7 +55,8 @@ function notFoundReponse(request, response){
 
 function getConfigFromEnvVariables(){
   return {
-    port: process.env.PORT
+    port: process.env.PORT,
+    useCluster: process.env.USE_CLUSTER,
   }
 }
 

@@ -1,7 +1,15 @@
 h1. Versus
 Versus is a project for comparing the performance of various languages.
 
-h2. Setup Mac
+h2. Setup Project Mac
+
+h3. Environment Variables
+h4. PORT
+port for server to listen on
+h4. USE_CLUSTER
+indicates whether node should use a cluster to utilize all cpus
+
+h2. Setup Software Mac
 h3. JMeter
 Jmeter requires java version 8 (9 doesn't work)
 ```

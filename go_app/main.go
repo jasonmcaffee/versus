@@ -33,9 +33,12 @@ func startServer(config Config) {
 }
 
 func simpleJsonResponse(response http.ResponseWriter, request *http.Request) {
+	flusher, _ := response.(http.Flusher)
 	response.Header().Add("Content-Type", "application/json")
+	response.Header().Add("Connection", "keep-alive")  //node does this by default
 	simpleResponse := SimpleResponse{Hello:"world"}
 	json.NewEncoder(response).Encode(simpleResponse)
+	flusher.Flush() //transfer encoding chunked. node does this by default
 }
 
 func getConfigFromEnvVariables() Config {
