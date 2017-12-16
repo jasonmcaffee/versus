@@ -42,6 +42,21 @@ nvm install 8.5.0
 nvm use 8.5.0
 ```
 
+### Go
+install go
+```
+brew install go
+```
+
+add the following to your ~/.bash_profile
+```
+export GOPATH=/Users/jason.mcaffee/Documents/dev/go
+export GOROOT=/usr/local/Cellar/go/1.8/libexec
+export PATH=$PATH:$GOPATH/bin
+```
+
+make sure this project lives in a directory inside the GOPATH directory
+
 ## Running The Tests
 Open Jmeter, then File->Open one of the jmx tests in the tests dir.
 ```
