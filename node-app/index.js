@@ -1,18 +1,24 @@
 const http = require('http');
 const url = require('url');
+const cluster = require('cluster');
+const os = require('os');
 
 function main(){
   console.log(`node app is running`);
   startServer();
 }
 
-function startServer({config=getConfigFromEnvVariables()}={}){
+function startServer({config=getConfigFromEnvVariables(), cpus=os.cpus()}={}){
   console.log(`starting server with config: ${JSON.stringify(config)}`);
   const {port} = config;
-  const server = http.createServer((request, response) => {
-    route(request, response);
-  });
-  server.listen(port);
+  if (cluster.isMaster) {
+    cpus.forEach(()=>cluster.fork());
+  } else {
+    const server = http.createServer((request, response) => {
+      route(request, response);
+    });
+    server.listen(port);
+  }
 }
 
 function route(request, response){
