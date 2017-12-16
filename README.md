@@ -3,7 +3,7 @@ Versus is a project for comparing the performance of various languages.
 
 ## Perf Results
 ### 1000 Threads - Simple JSON Response
-[Result](/jmeter-results/simple-json-response/result.md)
+[Result](/tests/jmeter-results/simple-json-response/result.md)
 
 ## Setup Project Mac
 
