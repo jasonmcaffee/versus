@@ -59,7 +59,11 @@ make sure this project lives in a directory inside the GOPATH directory
 
 ## Running The Tests
 Open Jmeter, then File->Open one of the jmx tests in the tests dir.
+
+To run jmeter, open a terminal and run
 ```
 jmeter
 ```
+
+A UI should pop up, where you can run your tests.
 
