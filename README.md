@@ -48,6 +48,8 @@ localhost
 #### DB_PORT
 3306
 #### DB_CONNECTION_LIMIT
+100
+mysql has a default connection limit of 150.
 number of connections for connection pool
 #### DB_SCHEMA
 versus
@@ -85,6 +87,11 @@ nvm install 8.5.0
 nvm use 8.5.0
 ```
 
+cd into the node-app directory and run
+```
+npm install
+```
+
 ### Go
 install go
 ```
@@ -99,6 +106,11 @@ export PATH=$PATH:$GOPATH/bin
 ```
 
 make sure this project lives in a directory inside the GOPATH directory
+
+cd into the go_app directory and run
+```
+go get "github.com/go-sql-driver/mysql"
+```
 
 ## Running The Tests
 Open Jmeter, then File->Open one of the jmx tests in the tests dir.
