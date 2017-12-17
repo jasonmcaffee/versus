@@ -53,10 +53,23 @@ function simpleJsonResponse(request, response){
 }
 
 function acceptAndReturnJson(request, response){
+  if (request.method != 'POST'){ return notFoundReponse(request, response); }
+  let body = '';
+  request.on('data', (data)=>{
+    body += data;
+  });
+  request.on('end', (data)=>{
+    console.log("Body: " + body);
+    let json = JSON.parse(body);
+    sendJsonResponse(json, response);
+  });
+}
+
+function sendJsonResponse(json, response){
   const headers = {'Content-Type': 'application/json'};
   const simpleResponse = {hello: 'world'};
   response.writeHead(200, headers);
-  response.end(JSON.stringify(simpleResponse));
+  response.end(JSON.stringify(json));
 }
 
 function notFoundReponse(request, response){
