@@ -2,8 +2,19 @@
 Versus is a project for comparing the performance of various languages.
 
 ## Perf Results
+
 ### 1000 Threads - Simple JSON Response
+Vanilla servers with endpoint to return a json response from a GET request.
+
+Node and Go perform relatively the same at requests handled per second.
+
 [Result](/tests/jmeter-results/simple-json-response/result.md)
+
+### 1000 Threads - Simple JSON Response
+Vanilla servers with endpoint to accept and return a json object from a POST request.
+
+Node and Go perform relatively the same at requests handled per second.
+[Result](/tests/jmeter-results/accept-and-return-json/result.md)
 
 ## Setup Project Mac
 ### ulimit
