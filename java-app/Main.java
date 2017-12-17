@@ -48,7 +48,6 @@ public class Main {
         }
         public String toJson(){
             String s = "{ \"hello\": \"" + this.hello + "\"}";
-            //String s = "{hello: \"world\" }";
             return s;
         }
     }

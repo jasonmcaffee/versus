@@ -22,6 +22,7 @@ function startServer({config=getConfigFromEnvVariables(), cpus=os.cpus()}={}){
     createServerAndListen({port});
   }
 }
+
 function createServerAndListen({port}){
   const server = http.createServer((request, response) => {
     route(request, response);
@@ -36,12 +37,22 @@ function route(request, response){
     case '/simple-json-response':
       simpleJsonResponse(request, response);
       break;
+    case '/accept-and-return-json':
+      acceptAndReturnJson(request, response);
+      break;
     default:
       notFoundReponse(request, response);
   }
 }
 
 function simpleJsonResponse(request, response){
+  const headers = {'Content-Type': 'application/json'};
+  const simpleResponse = {hello: 'world'};
+  response.writeHead(200, headers);
+  response.end(JSON.stringify(simpleResponse));
+}
+
+function acceptAndReturnJson(request, response){
   const headers = {'Content-Type': 'application/json'};
   const simpleResponse = {hello: 'world'};
   response.writeHead(200, headers);

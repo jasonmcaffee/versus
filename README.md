@@ -6,7 +6,20 @@ Versus is a project for comparing the performance of various languages.
 [Result](/tests/jmeter-results/simple-json-response/result.md)
 
 ## Setup Project Mac
+### ulimit
+By default, the max amount of file descriptors is set to 1024
 
+Check current settings
+```
+sudo launchctl limit
+```
+
+Update settings to unlimited.
+```
+echo "limit maxfiles 1024 unlimited" | sudo tee -a /etc/launchd.conf
+```
+
+[Stack Overflow For Help With Ulimit](https://superuser.com/questions/302754/increase-the-maximum-number-of-open-file-descriptors-in-snow-leopard)
 ### Environment Variables
 #### PORT
 port for server to listen on
