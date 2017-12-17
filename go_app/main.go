@@ -36,6 +36,11 @@ type (
 		IntColumn int `json:"intColumn"`
 		StringColumn string `json:"stringColumn"`
 	}
+	DbOperationsResult struct {
+		ID int `json:"id"`
+		IntColumn int `json:"intColumn"`
+		StringColumn string `json:"stringColumn"`
+	}
 )
 
 func main() {
@@ -96,18 +101,51 @@ func dbOperations(response http.ResponseWriter, request *http.Request) {
 	}
 
 	conn := getDbConnection()
-	query := "select 1+1"
-	rows := dbQuery(conn, query)
 
-	sendJsonResponse(response, rows)
+	//insert
+	insertQuery :="insert into db_operations (stringColumn, intColumn) values (?, ?)"
+	_, lastInsertId := dbUpdate(conn, insertQuery, jsonObject.StringColumn, jsonObject.IntColumn)
+
+	//read
+	query := "select * from db_operations where id = ?"
+	rows := dbQuery(conn, query, lastInsertId)
+
+	//delete
+	deleteQuery := "delete from db_operations where id = ?"
+	_, _ = dbUpdate(conn, deleteQuery, lastInsertId)
+
+	//return result
+	result := []DbOperationsResult{}
+	for rows.Next() {
+		var dbOperationsResult DbOperationsResult
+		err = rows.Scan(&dbOperationsResult.ID, &dbOperationsResult.StringColumn, &dbOperationsResult.IntColumn)
+		if err != nil {
+			panic(err.Error()) // proper error handling instead of panic in your app
+		}
+		result = append(result, dbOperationsResult)
+	}
+
+	sendJsonResponse(response, result)
 }
 
-func dbQuery(conn *sql.DB, query string) *sql.Rows{
-	results, err := conn.Query(query)
+func dbQuery(conn *sql.DB, query string, args ...interface{}) *sql.Rows{
+	results, err := conn.Query(query, args...)
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 	return results
+}
+
+func dbUpdate(conn *sql.DB, query string, args ...interface{}) (result sql.Result, lastInsertId int64){
+	result, err := conn.Exec(query, args...)
+	if err != nil{
+		panic(err.Error())
+	}
+	lastInsertId, err = result.LastInsertId()
+	if err != nil{
+		panic(err.Error())
+	}
+	return result, lastInsertId
 }
 
 var dbConnection *sql.DB
