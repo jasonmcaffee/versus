@@ -39,6 +39,22 @@ echo "limit maxfiles 1024 unlimited" | sudo tee -a /etc/launchd.conf
 port for server to listen on
 #### USE_CLUSTER
 indicates whether node should use a cluster to utilize all cpus
+#### DB_USER
+user name for db operation tests
+#### DB_PASSWORD
+password for db_user
+#### DB_HOST
+localhost
+#### DB_PORT
+3306
+#### DB_CONNECTION_LIMIT
+number of connections for connection pool
+#### DB_SCHEMA
+versus
+
+### DB Setup
+[sql script]('/setup/db-setup.sql')
+Run the setup script to create schema, tables, and initial values.
 
 ## Setup Software Mac
 ### JMeter

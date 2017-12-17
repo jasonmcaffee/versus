@@ -32,14 +32,23 @@ function acceptAndReturnJson(request, response){
 
 //########################################################################################################## test 3
 async function dbOperations(request, response){
-  let query =  `select 1 + 1`;
-  let rows = await dbQuery({query});
-  sendJsonResponse(rows, response);
+  let jsonRequest = await getJsonRequest(request);
+  //insert
+  let insertQuery = `insert into db_operations set ?`;
+  let insertRows = await dbQuery({query:insertQuery, data:jsonRequest});
+  let insertId = insertRows.insertId;
+  //retrieve the inserted row
+  let query = `select * from db_operations where id = ${insertId}`;
+  let result = await dbQuery({query});
+  //delete the inserted row
+  let deleteQuery = `delete from db_operations where id = ${insertId}`;
+  await dbQuery({query:deleteQuery});
+  sendJsonResponse(result, response);
 }
 
-function dbQuery({conn=getDbConnection(), query}){
+function dbQuery({conn=getDbConnection(), query, data}){
   return new Promise((resolve, reject)=>{
-    conn.query(query, function(err, results, fields) {
+    conn.query(query, data, function(err, results, fields) {
       if(err){return reject(err);}
       resolve(results);
     });
@@ -67,6 +76,19 @@ function sendJsonResponse(json, response){
   const simpleResponse = {hello: 'world'};
   response.writeHead(200, headers);
   response.end(JSON.stringify(json));
+}
+
+function getJsonRequest(request){
+  return new Promise((resolve, reject)=>{
+    let body = '';
+    request.on('data', function(data){
+      body += data;
+    });
+    request.on('end', function(data){
+      let json = JSON.parse(body);
+      resolve(json);
+    });
+  });
 }
 
 function notFoundReponse(request, response){
