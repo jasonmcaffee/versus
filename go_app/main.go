@@ -14,7 +14,14 @@ type (
 		Port string
 	}
 	SimpleResponse struct{
-		Hello string `json:"hello""`
+		Hello string `json:"hello"`
+	}
+	AcceptAndReturnJsonRequest struct{
+		String string `json:"string"`
+		Number int `json:"number"`
+		Boolean bool `json:"boolean"`
+		ArrayNumber []int `json:"array number"`
+		ArrayString []string `json:"array string"`
 	}
 )
 
@@ -55,13 +62,13 @@ func acceptAndReturnJson(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), 500)
 		return
 	}
-	var jsonObject interface{}
-	err = json.Unmarshal(b, &jsonObject)
+	jsonObject := &AcceptAndReturnJsonRequest{}
+	err = json.Unmarshal(b, jsonObject)
 	if err != nil {
 		http.Error(response, err.Error(), 500)
 		return
 	}
-	sendJsonResponse(response, jsonObject)
+	sendJsonResponse(response, *jsonObject)
 }
 
 func sendJsonResponse(response http.ResponseWriter, data interface{}) {
