@@ -10,7 +10,7 @@ Node and Go perform relatively the same at requests handled per second.
 
 [Result](/tests/jmeter-results/simple-json-response/result.md)
 
-### 1000 Threads - Simple JSON Response
+### 1000 Threads - Accept and Return Json
 Vanilla servers with endpoint to accept and return a json object from a POST request.
 
 Node and Go perform relatively the same at requests handled per second.
