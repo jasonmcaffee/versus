@@ -1,5 +1,6 @@
 # Perf Results
-This performance test sees how many requests standard go and node apps (no external frameworks or libs) can serve a simple json response from a GET endpoint.
+This performance test sees how many requests per second standard go and node apps
+(no external frameworks or libs) can serve a simple json response from a GET endpoint.
 
 Each app was started, then given a few test runs before the results were recorded.
 
