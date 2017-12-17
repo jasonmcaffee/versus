@@ -7,7 +7,9 @@ JMeter was used with 1000 threads for the thread group.
 
 Node was tested with clustering turned on and off.
 
-Performance appears to be relatively the same.
+Performance between Node and Go appears to be relatively the same in terms of throughput (number of requests per second)
+
+Java throughput is a bit slower.
 
 ## Go
 ```go
