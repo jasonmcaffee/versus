@@ -7,7 +7,9 @@ Versus is a project for comparing the performance of various languages.
 
 ## Setup Project Mac
 ### ulimit
-By default, the max amount of file descriptors is set to 1024
+By default, the max amount of file descriptors is set to a low number, and this will affect the max number of connections the apps can handle.
+
+Fix this by increasing the ulimit.
 
 Check current settings
 ```
