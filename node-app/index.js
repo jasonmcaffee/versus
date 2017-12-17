@@ -55,11 +55,10 @@ function simpleJsonResponse(request, response){
 function acceptAndReturnJson(request, response){
   if (request.method != 'POST'){ return notFoundReponse(request, response); }
   let body = '';
-  request.on('data', (data)=>{
+  request.on('data', function(data){
     body += data;
   });
-  request.on('end', (data)=>{
-    console.log("Body: " + body);
+  request.on('end', function(data){
     let json = JSON.parse(body);
     sendJsonResponse(json, response);
   });
