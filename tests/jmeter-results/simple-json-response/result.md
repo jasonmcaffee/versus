@@ -50,3 +50,25 @@ func simpleJsonResponse(response http.ResponseWriter, request *http.Request) {
 
 ![Response](node-response-times.png)
 
+## Java
+```java
+ public void handle(HttpExchange t) throws IOException {
+     SimpleJsonResponse simpleJsonResponse = new SimpleJsonResponse();
+     simpleJsonResponse.setHello("world");
+     String response = simpleJsonResponse.toJson();
+
+     Headers headers = t.getResponseHeaders();
+     headers.add("Content-Type", "application/json");
+     headers.add("Connection", "keep-alive");
+
+     t.sendResponseHeaders(200, response.length());
+
+     OutputStream os = t.getResponseBody();
+     os.write(response.getBytes());
+     os.close();
+ }
+```
+![Summary](java-summary.png)
+
+![Response](java-response-times.png)
+
