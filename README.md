@@ -14,6 +14,7 @@ Node and Go perform relatively the same at requests handled per second.
 Vanilla servers with endpoint to accept and return a json object from a POST request.
 
 Node and Go perform relatively the same at requests handled per second.
+
 [Result](/tests/jmeter-results/accept-and-return-json/result.md)
 
 ## Setup Project Mac
