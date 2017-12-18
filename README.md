@@ -6,7 +6,7 @@ All performance tests were ran on the same machine, running the apps, the databa
 
 Machine Hardware:
 
-![Hardwoare](/tests/hardware.png =150x)
+![Hardwoare](/tests/hardware.png)
 
 ### 1000 Threads - Simple JSON Response
 Vanilla servers with endpoint to return a json response from a GET request.
