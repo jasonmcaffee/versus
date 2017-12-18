@@ -2,6 +2,11 @@
 Versus is a project for comparing the performance of various languages.
 
 ## Perf Results
+All performance tests were ran on the same machine, running the apps, the database, and the tests locally.
+
+Machine Hardware:
+
+![Hardwoare](/tests/hardware.png)
 
 ### 1000 Threads - Simple JSON Response
 Vanilla servers with endpoint to return a json response from a GET request.
