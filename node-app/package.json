@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "mysql": "^2.15.0",
     "mysql2": "^1.5.1"
   },
   "devDependencies": {},

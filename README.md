@@ -17,6 +17,15 @@ Node and Go perform relatively the same at requests handled per second.
 
 [Result](/tests/jmeter-results/accept-and-return-json/result.md)
 
+### 1000 Threads - Db Operations
+Apps configured to use external libraries for mysql.
+
+In terms of throughput, Go is slightly faster than Node with clustering.
+
+Go had more consistent response times, whereas Node tended to fluctuate.
+
+[Result](/tests/jmeter-results/db-operations/result.md)
+
 ## Setup Project Mac
 ### ulimit
 By default, the max amount of file descriptors is set to a low number, and this will affect the max number of connections the apps can handle.
