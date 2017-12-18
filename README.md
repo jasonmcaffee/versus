@@ -48,7 +48,7 @@ Performance between Node and Go is relatively the same.
 [Result](/tests/jmeter-results/perform-http-request/result.md)
 
 ### 1000 Threads - Find Prime Numbers
-Go was ~12% faster than Node with no clustering, and had more consistent response times.
+Go was ~12% faster than Node with no clustering.
 
 Node with clustering was ~26% faster than go, with constantly increasing response times.
 

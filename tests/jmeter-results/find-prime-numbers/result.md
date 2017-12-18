@@ -10,7 +10,7 @@ JMeter was used with 1000 threads for the thread group.
 
 Node was tested with clustering turned on and off.
 
-Go was ~12% faster than Node with no clustering, and had more consistent response times.
+Go was ~12% faster than Node with no clustering.
 
 Node with clustering was ~26% faster than go, with constantly increasing response times.
 
