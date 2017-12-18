@@ -17,7 +17,7 @@ Performance between Node and Go appears to be relatively the same.
 
 ## Go
 ```go
-func dbOperations(response http.ResponseWriter, request *http.Request) {
+func performHttpRequest(response http.ResponseWriter, request *http.Request) {
 	if request.Method != "POST" {
 		http.Error(response, "not found", 404)
 		return
@@ -28,35 +28,20 @@ func dbOperations(response http.ResponseWriter, request *http.Request) {
 		http.Error(response, err.Error(), 500)
 		return
 	}
-	jsonObject := &DbOperationsRequest{}
+	jsonObject := &AcceptAndReturnJsonRequest{}
 	err = json.Unmarshal(b, jsonObject)
 	if err != nil {
 		http.Error(response, err.Error(), 500)
 		return
 	}
 
-	conn := getDbConnection()
-	//insert
-	insertQuery :="insert into db_operations (stringColumn, intColumn) values (?, ?)"
-	_, lastInsertId := dbUpdate(conn, insertQuery, jsonObject.StringColumn, jsonObject.IntColumn)
-	//read
-	query := "select * from db_operations where id = ?"
-	rows := dbQuery(conn, query, lastInsertId)
-	//delete
-	deleteQuery := "delete from db_operations where id = ?"
-	_, _ = dbUpdate(conn, deleteQuery, lastInsertId)
-	//return result
-	result := []DbOperationsResult{}
-	for rows.Next() {
-		var dbOperationsResult DbOperationsResult
-		err = rows.Scan(&dbOperationsResult.ID, &dbOperationsResult.StringColumn, &dbOperationsResult.IntColumn)
-		if err != nil {
-			panic(err.Error()) // proper error handling instead of panic in your app
-		}
-		result = append(result, dbOperationsResult)
-	}
-	rows.Close()
-	sendJsonResponse(response, result)
+	path := "http://localhost:7878/accept-and-return-json"
+	method := "POST"
+	headers := createCommonHeaders()
+	responseObject := &AcceptAndReturnJsonRequest{}
+	_, err = req(path, method, headers, jsonObject, responseObject)
+
+	sendJsonResponse(response, responseObject)
 }
 
 ```
@@ -66,18 +51,9 @@ func dbOperations(response http.ResponseWriter, request *http.Request) {
 
 ## Node with Cluster
 ```js
-async function dbOperations(request, response){
-  let jsonRequest = await getJsonRequest(request);
-  //insert
-  let insertQuery = `insert into db_operations set ?`;
-  let insertRows = await dbQuery({query:insertQuery, data:jsonRequest});
-  let insertId = insertRows.insertId;
-  //retrieve the inserted row
-  let query = `select * from db_operations where id = ${insertId}`;
-  let result = await dbQuery({query});
-  //delete the inserted row
-  let deleteQuery = `delete from db_operations where id = ${insertId}`;
-  await dbQuery({query:deleteQuery});
+async function performHttpRequest(request, response){
+  let data = await getJsonRequest(request);
+  let result = await req({hostname:'localhost', port:7878, path:'/accept-and-return-json', method:'POST', data});
   sendJsonResponse(result, response);
 }
 ```
@@ -87,21 +63,11 @@ async function dbOperations(request, response){
 
 ## Node
 ```js
-async function dbOperations(request, response){
-  let jsonRequest = await getJsonRequest(request);
-  //insert
-  let insertQuery = `insert into db_operations set ?`;
-  let insertRows = await dbQuery({query:insertQuery, data:jsonRequest});
-  let insertId = insertRows.insertId;
-  //retrieve the inserted row
-  let query = `select * from db_operations where id = ${insertId}`;
-  let result = await dbQuery({query});
-  //delete the inserted row
-  let deleteQuery = `delete from db_operations where id = ${insertId}`;
-  await dbQuery({query:deleteQuery});
+async function performHttpRequest(request, response){
+  let data = await getJsonRequest(request);
+  let result = await req({hostname:'localhost', port:7878, path:'/accept-and-return-json', method:'POST', data});
   sendJsonResponse(result, response);
 }
-
 ```
 ![Summary](node-summary.png)
 

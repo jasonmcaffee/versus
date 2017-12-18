@@ -73,14 +73,9 @@ function getDbConnection({config=getConfigFromEnvVariables(), cpus=os.cpus()}={}
 
 //########################################################################################################## test 4
 async function performHttpRequest(request, response){
-  try{
-    let data = await getJsonRequest(request);
-    let result = await req({hostname:'localhost', port:7878, path:'/accept-and-return-json', method:'POST', data});
-    sendJsonResponse(result, response);
-  }catch(e){
-    console.error(`error encountered: ${e.stack}`);
-    throw e;
-  }
+  let data = await getJsonRequest(request);
+  let result = await req({hostname:'localhost', port:7878, path:'/accept-and-return-json', method:'POST', data});
+  sendJsonResponse(result, response);
 }
 
 function req({method='GET', data='', path='/path', port=80, contentType='application/json', hostname='www.google.com', agent=getHttpAgent()}){
