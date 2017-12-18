@@ -8,7 +8,7 @@ This performance tests sees how fast apps can:
 
 Each app was started, then given a few test runs before the results were recorded.
 
-JMeter was used with 1000 threads for the thread group.
+JMeter was used with 500 threads for the thread group.
 
 Each app was configured to use a db connection pool with a max size of 50.
 
