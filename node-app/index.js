@@ -122,6 +122,15 @@ function getHttpAgent(){
 }
 
 //########################################################################################################## test 5
+async function findPrimeNumbers(request, response){
+  let requestObject = await getJsonRequest(request);
+  let min = requestObject.min;
+  let max = requestObject.max;
+  let primesArray = getPrimeNumbersBetween(min, max);
+  let result = {numberOfPrimes:primesArray.length};
+  sendJsonResponse(result, response);
+}
+
 function isPrime(num) {
   const sqrtnum=Math.floor(Math.sqrt(num)) + 1;
   let prime = num != 1;
@@ -142,15 +151,6 @@ function getPrimeNumbersBetween(min, max){
     }
   }
   return primes;
-}
-
-async function findPrimeNumbers(request, response){
-  let requestObject = await getJsonRequest(request);
-  let min = requestObject.min;
-  let max = requestObject.max;
-  let primesArray = getPrimeNumbersBetween(min, max);
-  let result = {numberOfPrimes:primesArray.length};
-  sendJsonResponse(result, response);
 }
 
 

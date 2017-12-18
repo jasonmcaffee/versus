@@ -15,6 +15,7 @@ import (
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
+	"math"
 )
 
 type (
@@ -46,6 +47,13 @@ type (
 		ID           int    `json:"id"`
 		IntColumn    int    `json:"intColumn"`
 		StringColumn string `json:"stringColumn"`
+	}
+	FindPrimeNumbersRequest struct {
+		Min int `json:"min"`
+		Max int `json:"max"`
+	}
+	FindPrimeNumbersResponse struct {
+		NumberOfPrimes int `json:"numberOfPrimes"`
 	}
 )
 
@@ -288,6 +296,55 @@ func createCommonHeaders() map[string]string {
 	return headers
 }
 
+//########################################################################################################## test 5
+func findPrimeNumbers(response http.ResponseWriter, request *http.Request) {
+	if request.Method != "POST" {
+		http.Error(response, "not found", 404)
+		return
+	}
+	b, err := ioutil.ReadAll(request.Body)
+	defer request.Body.Close()
+	if err != nil {
+		http.Error(response, err.Error(), 500)
+		return
+	}
+	jsonObject := &FindPrimeNumbersRequest{}
+	err = json.Unmarshal(b, jsonObject)
+	if err != nil {
+		http.Error(response, err.Error(), 500)
+		return
+	}
+
+	min := jsonObject.Min
+	max := jsonObject.Max
+	primesArray := getPrimeNumbersBetween(min, max)
+	result := FindPrimeNumbersResponse{NumberOfPrimes:len(primesArray)}
+	sendJsonResponse(response, result)
+}
+
+func isPrime(num int) bool {
+	sqrtnum := int( math.Floor( math.Sqrt( float64(num) ) ) ) + 1
+	prime := num != 1
+	for i := 2; i < sqrtnum; i++ {
+		if num%i == 0 {
+			prime = false
+			break
+		}
+	}
+	return prime
+}
+
+func getPrimeNumbersBetween(min int, max int) []int{
+	primes := []int{}
+	for i := min; i <= max; i++ {
+		if isPrime(i) {
+			primes = append(primes, i)
+		}
+	}
+	return primes
+}
+
+
 //########################################################################################################## common
 func startServer(config Config) {
 	fmt.Println("starting server with config: ", config)
@@ -296,6 +353,7 @@ func startServer(config Config) {
 	http.HandleFunc("/accept-and-return-json", acceptAndReturnJson)
 	http.HandleFunc("/db-operations", dbOperations)
 	http.HandleFunc("/perform-http-request", performHttpRequest)
+	http.HandleFunc("/find-prime-numbers", findPrimeNumbers)
 	err := http.ListenAndServe(port, nil) // set listen port
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
