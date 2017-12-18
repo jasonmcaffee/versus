@@ -20,9 +20,9 @@ Node and Go perform relatively the same at requests handled per second.
 ### 1000 Threads - Db Operations
 Apps configured to use external libraries for mysql.
 
-In terms of throughput, Go is slightly faster than Node with clustering.
+In terms of throughput, Go is ~10% faster than Node with clustering.
 
-Go had more consistent response times, whereas Node tended to fluctuate.
+Go had consistent response times, whereas Node tended to fluctuate.
 
 [Result](/tests/jmeter-results/db-operations/result.md)
 
