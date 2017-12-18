@@ -5,11 +5,13 @@ Each app was started, then given a few test runs before the results were recorde
 
 JMeter was used with 1000 threads for the thread group.
 
+Each app was configured to use a db connection pool with a max size of 50.
+
 Node was tested with clustering turned on and off.
 
 Go was slightly faster in terms of throughput, compared to Node with clustering.
 
-Go did have consistent response times, whereas Node tended to fluctuate.
+Go had consistent response times, whereas Node tended to fluctuate.
 
 ## Go
 ```go
