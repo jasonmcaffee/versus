@@ -1,7 +1,7 @@
 # Perf Results
 This performance tests sees how fast apps can:
 - accept json post
-- pass json post to accept-and-return-json endpoint
+- perform http post with json to accept-and-return-json endpoint
 - read result for accept-and-return-json
 - send json response with result
 
