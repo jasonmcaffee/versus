@@ -67,7 +67,9 @@ localhost
 3306
 #### DB_CONNECTION_LIMIT
 50
+
 mysql has a default connection limit of 150.
+
 number of connections for connection pool
 #### DB_SCHEMA
 versus
