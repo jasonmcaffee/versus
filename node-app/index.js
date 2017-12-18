@@ -2,7 +2,7 @@ const http = require('http');
 const url = require('url');
 const cluster = require('cluster');
 const os = require('os');
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 function main(){
   console.log(`node app is running`);
@@ -56,9 +56,11 @@ function dbQuery({conn=getDbConnection(), query, data}){
 }
 
 let dbConnection;
-function getDbConnection({config=getConfigFromEnvVariables()}={}){
+function getDbConnection({config=getConfigFromEnvVariables(), cpus=os.cpus()}={}){
+  //since each process in the cluster will start a process, we need to ensure we are using the desired max connection limit
+  let dbConnectionLimit = config.useCluster === 'true' ? config.dbConnectionLimit / cpus.length : config.dbConnectionLimit;
   dbConnection = dbConnection || mysql.createPool({
-    connectionLimit : config.dbConnectionLimit,
+    connectionLimit : dbConnectionLimit,
     host     : config.dbHost,
     user     : config.dbUser,
     password : config.dbPassword,

@@ -802,11 +802,11 @@
           <intProp name="RespTimeGraph.graphtitlefondsize">4</intProp>
           <intProp name="RespTimeGraph.linestrockwidth">0</intProp>
           <intProp name="RespTimeGraph.lineshapepoint">4</intProp>
-          <stringProp name="RespTimeGraph.yaxisscaleincrement">1</stringProp>
-          <stringProp name="RespTimeGraph.yaxisscalemaxvalue">20</stringProp>
+          <stringProp name="RespTimeGraph.yaxisscaleincrement">50</stringProp>
+          <stringProp name="RespTimeGraph.yaxisscalemaxvalue">1500</stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Node Cluster Summary Report" enabled="false">
+        <ResultCollector guiclass="SummaryReport" testclass="ResultCollector" testname="Node Cluster Summary Report" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -842,7 +842,7 @@
           <stringProp name="filename"></stringProp>
         </ResultCollector>
         <hashTree/>
-        <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Node Cluster Response Time Graph" enabled="false">
+        <ResultCollector guiclass="RespTimeGraphVisualizer" testclass="ResultCollector" testname="Node Cluster Response Time Graph" enabled="true">
           <boolProp name="ResultCollector.error_logging">false</boolProp>
           <objProp>
             <name>saveConfig</name>
@@ -958,8 +958,8 @@
           <intProp name="RespTimeGraph.graphtitlefondsize">4</intProp>
           <intProp name="RespTimeGraph.linestrockwidth">0</intProp>
           <intProp name="RespTimeGraph.lineshapepoint">4</intProp>
-          <stringProp name="RespTimeGraph.yaxisscaleincrement">1</stringProp>
-          <stringProp name="RespTimeGraph.yaxisscalemaxvalue">20</stringProp>
+          <stringProp name="RespTimeGraph.yaxisscaleincrement">5</stringProp>
+          <stringProp name="RespTimeGraph.yaxisscalemaxvalue">150</stringProp>
         </ResultCollector>
         <hashTree/>
       </hashTree>

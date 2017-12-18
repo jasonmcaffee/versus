@@ -44,6 +44,7 @@ type (
 )
 
 func main() {
+	//runtime.GOMAXPROCS(runtime.NumCPU())
 	fmt.Println("go app is running")
 	startServer(getConfigFromEnvVariables())
 }
@@ -101,7 +102,6 @@ func dbOperations(response http.ResponseWriter, request *http.Request) {
 	}
 
 	conn := getDbConnection()
-
 	//insert
 	insertQuery :="insert into db_operations (stringColumn, intColumn) values (?, ?)"
 	_, lastInsertId := dbUpdate(conn, insertQuery, jsonObject.StringColumn, jsonObject.IntColumn)
@@ -125,6 +125,7 @@ func dbOperations(response http.ResponseWriter, request *http.Request) {
 		result = append(result, dbOperationsResult)
 	}
 
+	rows.Close()
 	sendJsonResponse(response, result)
 }
 
@@ -155,10 +156,15 @@ func getDbConnection() *sql.DB{
 	}
 	config := getConfigFromEnvVariables()
 	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", config.DbUser, config.DbPassword, config.DbHost, config.DbPort, config.DbSchema)
-	dbConnection, err := sql.Open("mysql", connectionString)
-	dbConnection.SetMaxIdleConns(config.DbConnectionLimit)//go closes connections quickly, so force them to stay open.
+	conn, err := sql.Open("mysql", connectionString)
+	dbConnection = conn
+	dbConnection.SetMaxIdleConns(config.DbConnectionLimit)
+	//dbConnection.SetConnMaxLifetime(time.Second * 1)
 	dbConnection.SetMaxOpenConns(config.DbConnectionLimit)
 	if err != nil {
+		if dbConnection != nil{
+			dbConnection.Close()
+		}
 		panic(err.Error())
 	}
 	return dbConnection
