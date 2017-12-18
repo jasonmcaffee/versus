@@ -26,6 +26,15 @@ Go had consistent response times, whereas Node tended to fluctuate.
 
 [Result](/tests/jmeter-results/db-operations/result.md)
 
+### 500 Threads - Db Operations
+Apps configured to use external libraries for mysql.
+
+With the thread count lowered in JMeter to 500 threads, throughput was identical in Node and Go.
+
+Go's response times were a bit lower.
+
+[Result](/tests/jmeter-results/db-operations-500-threads/result.md)
+
 ## Setup Project Mac
 ### ulimit
 By default, the max amount of file descriptors is set to a low number, and this will affect the max number of connections the apps can handle.
