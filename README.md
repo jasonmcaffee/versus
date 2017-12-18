@@ -35,6 +35,14 @@ Go's response times were a bit lower.
 
 [Result](/tests/jmeter-results/db-operations-500-threads/result.md)
 
+### 1000 Threads - Perform HTTP Request
+Apps setup with native http client
+
+Performance between Node and Go is relatively the same.
+
+[Result](/tests/jmeter-results/perform-http-request/result.md)
+
+
 ## Setup Project Mac
 ### ulimit
 By default, the max amount of file descriptors is set to a low number, and this will affect the max number of connections the apps can handle.
