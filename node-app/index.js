@@ -71,6 +71,60 @@ function getDbConnection({config=getConfigFromEnvVariables(), cpus=os.cpus()}={}
   return dbConnection;
 }
 
+//########################################################################################################## test 4
+async function performHttpRequest(request, response){
+  try{
+    let data = await getJsonRequest(request);
+    let result = await req({hostname:'localhost', port:7878, path:'/accept-and-return-json', method:'POST', data});
+    sendJsonResponse(result, response);
+  }catch(e){
+    console.error(`error encountered: ${e.stack}`);
+    throw e;
+  }
+}
+
+function req({method='GET', data='', path='/path', port=80, contentType='application/json', hostname='www.google.com', agent=getHttpAgent()}){
+  data = JSON.stringify(data);
+  return new Promise((resolve, reject)=>{
+    const options = { hostname, port, path, method, agent,
+      headers: {
+        'Content-Type': contentType,
+        'Content-Length': Buffer.byteLength(data)
+      }
+    };
+    let req = http.request(options, (res)=>{
+      let body = '';
+      res.on('data', (chunk) => {
+        body += chunk;
+      });
+      res.on('end', () => {
+        let result = JSON.parse(body);
+        resolve(result);
+      });
+    });
+    req.on('error', (e)=>{
+      reject(e);
+    });
+    if(data != ''){
+      req.write(data);
+    }
+    req.end();
+  });
+}
+
+let httpAgent;
+function getHttpAgent(){
+  if(httpAgent){
+    return httpAgent
+  }
+  let config = getConfigFromEnvVariables();
+  httpAgent = new http.Agent({
+    keepAlive: true,
+    maxSockets: config.httpRequestSockets,
+    maxFreeSockets: config.httpRequestSockets,
+  });
+  return httpAgent;
+}
 
 //########################################################################################################## common
 function sendJsonResponse(json, response){
@@ -108,6 +162,7 @@ function getConfigFromEnvVariables(){
     dbSchema: process.env.DB_SCHEMA,
     dbConnectionLimit: parseInt(process.env.DB_CONNECTION_LIMIT),
     dbPort: parseInt(process.env.DB_PORT),
+    httpRequestSockets: parseInt(process.env.HTTP_REQUEST_SOCKETS),
   };
 }
 
@@ -145,6 +200,9 @@ function route(request, response){
       break;
     case '/db-operations':
       dbOperations(request, response);
+      break;
+    case '/perform-http-request':
+      performHttpRequest(request, response);
       break;
     default:
       notFoundReponse(request, response);
