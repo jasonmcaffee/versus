@@ -283,6 +283,7 @@ func addHeadersFromMap(request *http.Request, headers map[string]string) {
 func createCommonHeaders() map[string]string {
 	headers := map[string]string{
 		"Content-Type": "application/json",
+		"Connection": "keep-alive",
 	}
 	return headers
 }
