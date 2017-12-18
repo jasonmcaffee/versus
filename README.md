@@ -79,6 +79,11 @@ localhost
 mysql has a default connection limit of 150.
 
 number of connections for connection pool
+#### HTTP_REQUEST_SOCKETS
+100
+
+number of sockets to keep open with keep-alive connections.
+
 #### DB_SCHEMA
 versus
 
