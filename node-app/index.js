@@ -121,6 +121,39 @@ function getHttpAgent(){
   return httpAgent;
 }
 
+//########################################################################################################## test 5
+function isPrime(num) {
+  const sqrtnum=Math.floor(Math.sqrt(num)) + 1;
+  let prime = num != 1;
+  for(let i = 2; i < sqrtnum; i++) {
+    if(num % i == 0) {
+      prime = false;
+      break;
+    }
+  }
+  return prime;
+}
+
+function getPrimeNumbersBetween(min, max){
+  let primes = [];
+  for(let i = min; i <= max; ++i){
+    if(isPrime(i)){
+      primes.push(i);
+    }
+  }
+  return primes;
+}
+
+async function findPrimeNumbers(request, response){
+  let requestObject = await getJsonRequest(request);
+  let min = requestObject.min;
+  let max = requestObject.max;
+  let primesArray = getPrimeNumbersBetween(min, max);
+  let result = {numberOfPrimes:primesArray.length};
+  sendJsonResponse(result, response);
+}
+
+
 //########################################################################################################## common
 function sendJsonResponse(json, response){
   const headers = {'Content-Type': 'application/json'};
@@ -198,6 +231,9 @@ function route(request, response){
       break;
     case '/perform-http-request':
       performHttpRequest(request, response);
+      break;
+    case '/find-prime-numbers':
+      findPrimeNumbers(request, response);
       break;
     default:
       notFoundReponse(request, response);
