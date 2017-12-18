@@ -1,5 +1,10 @@
 # Perf Results
-This performance test sees how many requests standard go and node apps (no external frameworks or libs) can receive and return json via a POST endpoint.
+This performance tests sees how fast apps can:
+- accept json post
+- insert json post into the db
+- read the inserted record from the db
+- delete the record from the db
+- return json object representing the read record from the db
 
 Each app was started, then given a few test runs before the results were recorded.
 
